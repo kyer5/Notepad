@@ -3,6 +3,7 @@ package com.goormthon.knu.web1.notepad.service;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteCreateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteUpdateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteCreateResponse;
+import com.goormthon.knu.web1.notepad.controller.dto.response.NoteDeleteResponse;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteUpdateResponse;
 import com.goormthon.knu.web1.notepad.domain.Note;
 import com.goormthon.knu.web1.notepad.repository.NoteRepository;
@@ -40,5 +41,10 @@ public class NoteService {
         }
 
         return new NoteUpdateResponse(note.getId());
+    }
+
+    public NoteDeleteResponse deleteNote(Long id) {
+        noteRepository.deleteById(id);
+        return new NoteDeleteResponse(id);
     }
 }
