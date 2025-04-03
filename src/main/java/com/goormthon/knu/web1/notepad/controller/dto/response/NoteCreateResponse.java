@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class NoteCreateResponse {
 
-    private Long noteId;
+    private Long id;
 
-    public NoteCreateResponse(Long noteId) {
-        this.noteId = noteId;
+    public NoteCreateResponse(Long id) {
+        this.id = id;
     }
 }

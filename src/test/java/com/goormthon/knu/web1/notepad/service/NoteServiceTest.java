@@ -35,7 +35,7 @@ public class NoteServiceTest {
         NoteCreateResponse testNoteCreateResponse = noteService.createNote(testNoteCreateRequest);
 
         // then
-        Note testNote = noteRepository.findById(testNoteCreateResponse.getNoteId())
+        Note testNote = noteRepository.findById(testNoteCreateResponse.getId())
                 .orElseThrow(() -> new RuntimeException("메모 작성 실패"));
 
         assertThat(testNote.getTitle()).isEqualTo("test title");
