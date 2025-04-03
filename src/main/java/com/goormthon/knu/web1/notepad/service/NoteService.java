@@ -20,8 +20,8 @@ public class NoteService {
     @Transactional
     public NoteCreateResponse createNote(NoteCreateRequest noteCreateRequest) {
         Note note = Note.builder()
-                .title(noteCreateRequest.getTitle())
-                .content(noteCreateRequest.getContent())
+                .title(noteCreateRequest.title())
+                .content(noteCreateRequest.content())
                 .build();
         noteRepository.save(note);
         return new NoteCreateResponse(note.getId());
@@ -32,12 +32,12 @@ public class NoteService {
         Note note = noteRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException("해당 ID가 존재하지 않습니다."));
 
-        if (noteUpdateRequest.getTitle() != null) {
-            note.updateTitle(noteUpdateRequest.getTitle());
+        if (noteUpdateRequest.title() != null) {
+            note.updateTitle(noteUpdateRequest.title());
         }
 
-        if (noteUpdateRequest.getContent() != null) {
-            note.updateContent(noteUpdateRequest.getContent());
+        if (noteUpdateRequest.content() != null) {
+            note.updateContent(noteUpdateRequest.content());
         }
 
         return new NoteUpdateResponse(note.getId());
