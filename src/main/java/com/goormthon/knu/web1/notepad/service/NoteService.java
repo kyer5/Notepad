@@ -4,6 +4,7 @@ import com.goormthon.knu.web1.notepad.controller.dto.request.NoteCreateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteUpdateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteCreateResponse;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteDeleteResponse;
+import com.goormthon.knu.web1.notepad.controller.dto.response.NoteListResponse;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteUpdateResponse;
 import com.goormthon.knu.web1.notepad.domain.Note;
 import com.goormthon.knu.web1.notepad.repository.NoteRepository;
@@ -11,11 +12,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NoteService {
 
     private final NoteRepository noteRepository;
+
+    public List<NoteListResponse> getNoteList() {
+        List<Note> noteList = noteRepository.findAll();
+        List<NoteListResponse> noteListResponses = noteList.stream().map(NoteListResponse::from).toList();
+        return noteListResponses;
+    }
 
     @Transactional
     public NoteCreateResponse createNote(NoteCreateRequest noteCreateRequest) {

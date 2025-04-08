@@ -5,11 +5,14 @@ import com.goormthon.knu.web1.notepad.controller.dto.request.NoteCreateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteUpdateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteCreateResponse;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteDeleteResponse;
+import com.goormthon.knu.web1.notepad.controller.dto.response.NoteListResponse;
 import com.goormthon.knu.web1.notepad.controller.dto.response.NoteUpdateResponse;
 import com.goormthon.knu.web1.notepad.service.NoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -17,6 +20,12 @@ import org.springframework.web.bind.annotation.*;
 public class NoteController {
 
     private final NoteService noteService;
+
+    @GetMapping
+    public ResponseDto<List<NoteListResponse>> getNotes() {
+        List<NoteListResponse> noteListResponses = noteService.getNoteList();
+        return ResponseDto.of(noteListResponses, "Successfully loaded the list of notes.");
+    }
 
     @PostMapping
     public ResponseDto<NoteCreateResponse> createNote(@Valid @RequestBody NoteCreateRequest noteCreateRequest) {
