@@ -27,7 +27,7 @@ public class NoteServiceTest {
 
     @DisplayName("메모를 작성할 수 있다.")
     @Test
-    public void createNote() throws Exception {
+    public void createNote() {
         // given
         NoteCreateRequest testNoteCreateRequest = new NoteCreateRequest("test title", "test content");
 
@@ -35,7 +35,7 @@ public class NoteServiceTest {
         NoteCreateResponse testNoteCreateResponse = noteService.createNote(testNoteCreateRequest);
 
         // then
-        Note testNote = noteRepository.findById(testNoteCreateResponse.getId())
+        Note testNote = noteRepository.findById(testNoteCreateResponse.id())
                 .orElseThrow(() -> new RuntimeException("메모 작성 실패"));
 
         assertThat(testNote.getTitle()).isEqualTo("test title");
