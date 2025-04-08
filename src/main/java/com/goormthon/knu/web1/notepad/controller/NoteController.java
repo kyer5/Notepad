@@ -18,19 +18,19 @@ public class NoteController {
 
     private final NoteService noteService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseDto<NoteCreateResponse> createNote(@Valid @RequestBody NoteCreateRequest noteCreateRequest) {
         NoteCreateResponse noteCreateResponse = noteService.createNote(noteCreateRequest);
         return ResponseDto.of(noteCreateResponse, "Successfully created a note.");
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public ResponseDto<NoteUpdateResponse> updateNote(@PathVariable final long id, @RequestBody NoteUpdateRequest noteUpdateRequest) {
         NoteUpdateResponse noteUpdateResponse = noteService.updateNote(id, noteUpdateRequest);
         return ResponseDto.of(noteUpdateResponse, "Successfully updated a note.");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseDto<NoteDeleteResponse> deleteNote(@PathVariable final long id) {
         NoteDeleteResponse noteDeleteResponse = noteService.deleteNote(id);
         return ResponseDto.of(noteDeleteResponse, "Successfully deleted a note.");
