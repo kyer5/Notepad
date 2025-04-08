@@ -37,13 +37,13 @@ public class NoteController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseDto<NoteUpdateResponse> updateNote(@PathVariable final long id, @RequestBody NoteUpdateRequest noteUpdateRequest) {
+    public ResponseDto<NoteUpdateResponse> updateNote(@PathVariable final Long id, @RequestBody NoteUpdateRequest noteUpdateRequest) {
         NoteUpdateResponse noteUpdateResponse = noteService.updateNote(id, noteUpdateRequest);
         return ResponseDto.of(noteUpdateResponse, "Successfully updated a note.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDto<NoteDeleteResponse> deleteNote(@PathVariable final long id) {
+    public ResponseDto<NoteDeleteResponse> deleteNote(@PathVariable final Long id) {
         NoteDeleteResponse noteDeleteResponse = noteService.deleteNote(id);
         return ResponseDto.of(noteDeleteResponse, "Successfully deleted a note.");
     }
