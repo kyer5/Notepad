@@ -2,10 +2,7 @@ package com.goormthon.knu.web1.notepad.service;
 
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteCreateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteUpdateRequest;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteCreateResponse;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteDeleteResponse;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteListResponse;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteUpdateResponse;
+import com.goormthon.knu.web1.notepad.controller.dto.response.*;
 import com.goormthon.knu.web1.notepad.domain.Note;
 import com.goormthon.knu.web1.notepad.repository.NoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +21,12 @@ public class NoteService {
         List<Note> noteList = noteRepository.findAll();
         List<NoteListResponse> noteListResponses = noteList.stream().map(NoteListResponse::from).toList();
         return noteListResponses;
+    }
+
+    public NoteDetailsResponse getNoteDetails(Long id) {
+        Note note = noteRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("해당 ID가 존재하지 않습니다."));
+        return new NoteDetailsResponse(note.getId(), note.getTitle(), note.getContent(), note.getUpdatedAt());
     }
 
     @Transactional

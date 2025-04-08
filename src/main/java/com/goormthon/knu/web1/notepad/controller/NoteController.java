@@ -3,10 +3,7 @@ package com.goormthon.knu.web1.notepad.controller;
 import com.goormthon.knu.web1.notepad.controller.dto.ResponseDto;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteCreateRequest;
 import com.goormthon.knu.web1.notepad.controller.dto.request.NoteUpdateRequest;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteCreateResponse;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteDeleteResponse;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteListResponse;
-import com.goormthon.knu.web1.notepad.controller.dto.response.NoteUpdateResponse;
+import com.goormthon.knu.web1.notepad.controller.dto.response.*;
 import com.goormthon.knu.web1.notepad.service.NoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +22,12 @@ public class NoteController {
     public ResponseDto<List<NoteListResponse>> getNotes() {
         List<NoteListResponse> noteListResponses = noteService.getNoteList();
         return ResponseDto.of(noteListResponses, "Successfully loaded the list of notes.");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseDto<NoteDetailsResponse> getNoteDetails(@PathVariable final Long id) {
+        NoteDetailsResponse noteDetailsResponse = noteService.getNoteDetails(id);
+        return ResponseDto.of(noteDetailsResponse, "Successfully retrieved the note details.");
     }
 
     @PostMapping
