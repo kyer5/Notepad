@@ -7,6 +7,8 @@ import com.goormthon.knu.web1.notepad.controller.dto.response.*;
 import com.goormthon.knu.web1.notepad.service.NoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,37 +16,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/notes")
 @RequiredArgsConstructor
-public class NoteController {
+public class NoteController implements NoteControllerSwagger {
 
     private final NoteService noteService;
 
     @GetMapping
-    public ResponseDto<List<NoteListResponse>> getNotes() {
+    public ResponseEntity<ResponseDto<List<NoteListResponse>>> getNotes() {
         List<NoteListResponse> noteListResponses = noteService.getNoteList();
-        return ResponseDto.of(noteListResponses, "Successfully loaded the list of notes.");
+        return ResponseEntity.ok(ResponseDto.of(noteListResponses, "Successfully loaded the list of notes."));
     }
 
     @GetMapping("/{id}")
-    public ResponseDto<NoteDetailsResponse> getNoteDetails(@PathVariable final Long id) {
+    public ResponseEntity<ResponseDto<NoteDetailsResponse>> getNoteDetails(@PathVariable final Long id) {
         NoteDetailsResponse noteDetailsResponse = noteService.getNoteDetails(id);
-        return ResponseDto.of(noteDetailsResponse, "Successfully retrieved the note details.");
+        return ResponseEntity.ok(ResponseDto.of(noteDetailsResponse, "Successfully retrieved the note details."));
     }
 
     @PostMapping
-    public ResponseDto<NoteCreateResponse> createNote(@Valid @RequestBody NoteCreateRequest noteCreateRequest) {
+    public ResponseEntity<ResponseDto<NoteCreateResponse>> createNote(@Valid @RequestBody NoteCreateRequest noteCreateRequest) {
         NoteCreateResponse noteCreateResponse = noteService.createNote(noteCreateRequest);
-        return ResponseDto.of(noteCreateResponse, "Successfully created a note.");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResponseDto.of(noteCreateResponse, "Successfully created a note."));
     }
 
     @PatchMapping("/{id}")
-    public ResponseDto<NoteUpdateResponse> updateNote(@PathVariable final Long id, @RequestBody NoteUpdateRequest noteUpdateRequest) {
+    public ResponseEntity<ResponseDto<NoteUpdateResponse>> updateNote(@PathVariable final Long id, @RequestBody NoteUpdateRequest noteUpdateRequest) {
         NoteUpdateResponse noteUpdateResponse = noteService.updateNote(id, noteUpdateRequest);
-        return ResponseDto.of(noteUpdateResponse, "Successfully updated a note.");
+        return ResponseEntity.ok(ResponseDto.of(noteUpdateResponse, "Successfully updated a note."));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseDto<NoteDeleteResponse> deleteNote(@PathVariable final Long id) {
+    public ResponseEntity<ResponseDto<NoteDeleteResponse>> deleteNote(@PathVariable final Long id) {
         NoteDeleteResponse noteDeleteResponse = noteService.deleteNote(id);
-        return ResponseDto.of(noteDeleteResponse, "Successfully deleted a note.");
+        return ResponseEntity.ok(ResponseDto.of(noteDeleteResponse, "Successfully deleted a note."));
     }
 }
