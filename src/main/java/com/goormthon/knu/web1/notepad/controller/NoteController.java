@@ -23,7 +23,7 @@ public class NoteController implements NoteControllerSwagger {
     @GetMapping
     public ResponseEntity<ResponseDto<List<NoteListResponse>>> getNotes() {
         List<NoteListResponse> noteListResponses = noteService.getNoteList();
-        return ResponseEntity.ok(ResponseDto.of(noteListResponses, "Successfully loaded the list of notes."));
+        return ResponseEntity.ok(ResponseDto.of(noteListResponses, "성공적으로 메모가 생성되었습니다."));
     }
 
     @GetMapping("/{id}")
