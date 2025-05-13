@@ -4,7 +4,7 @@
 # documentation.
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
+ 
 name: Java CI with Gradle
 
 on:
@@ -39,21 +39,21 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build -Dspring.profiles.active=test
 
-    - name: Upload JAR to EC2 via SSH
+    - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
 
-        scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -P ${{ secrets.PORT }} \
+        scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -P ${{ secrets.PORT }} \
           build/libs/*.jar \
-          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu/Notepad/
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu/
 
     - name: Restart Spring Boot App on EC2
       run: |
-        ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} \
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
-          "pkill -f 'java' || true && nohup java -jar /home/ubuntu/Notepad/*.jar &"
+          "pkill -f 'java' || true && nohup java -jar /home/ubuntu/*.jar &"
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
