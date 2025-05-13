@@ -42,7 +42,7 @@ jobs:
     - name: Set up SSH key
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
+        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_ed25519
 
         scp -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no -P ${{ secrets.PORT }} \
