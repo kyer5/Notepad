@@ -49,6 +49,11 @@ jobs:
           build/libs/*.jar \
           ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/ubuntu/
 
+    - name: Run deploy.sh on EC2
+      run: |
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${{ secrets.HOST }} "bash ~/deploy.sh"
+
+
     - name: Restart Spring Boot App on EC2
       run: |
         ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} \
