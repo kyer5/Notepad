@@ -36,7 +36,7 @@ public class NoteController implements NoteControllerSwagger {
     public ResponseEntity<ResponseDto<NoteCreateResponse>> createNote(@Valid @RequestBody NoteCreateRequest noteCreateRequest) {
         NoteCreateResponse noteCreateResponse = noteService.createNote(noteCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResponseDto.of(noteCreateResponse, "Successfully created a note."));
+                .body(ResponseDto.of(noteCreateResponse, "성공적으로 메모가 생성되었습니다."));
     }
 
     @PatchMapping("/{id}")
